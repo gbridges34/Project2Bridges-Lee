@@ -3,15 +3,6 @@ ST 558 Project 2
 George Bridges and Marcus Lee
 6/27/2021
 
--   [Reports for each day](#reports-for-each-day)
-    -   [Monday](#monday)
-    -   [Tuesday](#tuesday)
-    -   [Wednesday](#wednesday)
-    -   [Thursday](#thursday)
-    -   [Friday](#friday)
-    -   [Saturday](#saturday)
-    -   [Sunday](#sunday)
-
 For the readme.md:
 
 needs a brief description of the purpose of the repo.

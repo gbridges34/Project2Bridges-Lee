@@ -3,9 +3,7 @@ title: "ST 558 Project 2"
 author: "George Bridges and  Marcus Lee"
 date: "6/27/2021"
 output:
-  github_document:
-    toc: true
-    toc_depth: 2
+  github_document
 ---
 
 ```{r setup, include=FALSE}
