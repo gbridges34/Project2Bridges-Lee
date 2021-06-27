@@ -1,0 +1,26 @@
+---
+title: "ST 558 Project 2"
+author: "George Bridges and  Marcus Lee"
+date: "6/27/2021"
+output:
+  github_document:
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+For the readme.md:
+
+needs a brief description of the purpose of the repo. 
+
+You should also state all the packages required to run the analyses you do. 
+
+You should create links to each of the seven documents you will create(Links can be made to the sub-documents using relative paths).
+
+
+
+
+
