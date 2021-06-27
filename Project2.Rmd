@@ -1,0 +1,76 @@
+---
+title: "Project 2"
+author: "George Bridges and Marcus Lee"
+date: "6/27/2021"
+output:
+  github_document
+params:
+  day: "Monday"
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE, comment= FALSE}
+# Reading in the libraries/packages
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(tidyverse)
+library(dplyr)
+library(caret)
+library(tidyr)
+library(readr)
+library(knitr)
+library(caret)
+```
+
+# `r params$day` Report
+
+## Introduction section ?
+
+This section should briefly describes the data and the variable I will have to work with
+
+Target variable will be the `casual` and/or `registered` variables in some way (perhaps the sum of them, that is up to us)
+
+You should also mention the purpose of the analysis and the methods we will use to model the response.
+
+## Data
+
+After looking at the `day.csv`, the variables not selected for this analysis are listed below:
+
+* `instant`
+* `dteday`
+* `casual` I will be using the `cnt` variable
+* `registered` I will be using the `cnt` variable
+
+```{r, warning = FALSE, message=FALSE}
+data_days <- read_csv("day.csv")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Summarization
+
+## Modeling
+
+## Comparison
