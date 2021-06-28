@@ -19,6 +19,7 @@ library(tidyr)
 library(readr)
 library(knitr)
 library(caret)
+library(regclass)
 ```
 
 # `r params$day` Report
@@ -76,6 +77,7 @@ I will be randomly sample from the data in order to form a training(use 70% of t
 
 ```{r}
 set.seed(123)
+# I might need to change this later
 trainIndex <- createDataPartition(data_by_day$cnt, p=0.7, list = FALSE)
 
 train.data_by_day <- data_by_day[trainIndex,]
@@ -116,49 +118,65 @@ kable(grouped_mean.sd_on_some_variables, caption= "Summary Statistics on some of
 ```
 
 
-
-
-Need to produce 3 graphs
-
-
 ```{r}
 # Box plot seasons temperature
 ggplot(train.data_by_day, aes(group=season, temp, y="", fill=season))+geom_boxplot()+ggtitle("Boxplot of temperature based off of Season")+ylab("Seasons")+xlab("Temperature")
 
+
 # Scatterplot cnt vs temp based off of season
 
-ggplot(train.data_by_day, aes(x=cnt, y=temp, color=season))+geom_point()+labs(x="Temperature", y="Count of total rental bikes", title="Scatterplot of Temperature vs Count of total rental bikes based off of seasons")
+ggplot(train.data_by_day, aes(x=cnt, y=temp, color=season))+geom_point()+labs(x="Count of total rental bikes", y="Temperature", title="Scatterplot of Temperature vs Count of total rental bikes based off of seasons")
+# +geom_smooth(aes(cnt,temp),method=lm), scale_color_gradient(low="blue", high="red")
 
-#
+# Scatterplot of Temperature vs Windspeed
+ggplot(train.data_by_day, aes(x=temp,y=windspeed, color=season))+geom_point()+geom_smooth(aes(temp,windspeed),method=lm)+labs(x="Temperature", y="Windspeed", title="Scatterplot of Temperature vs Windspeed")
 ```
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Summarization
-
 ## Modeling
+
+
+What Marcus will be doing tomorrow:
+
+ explanation of ensemble model and a fit a boosted tree model
+ going to have to convert my categorical variables and make sure I did the sampling for the training dataset correctly.
+
+```{r}
+# Did not include the categorical variables
+model_1 <- lm(cnt ~ temp+atemp+hum+windspeed, data=train.data_by_day)
+summary(model_1)
+```
+
+```{r}
+anova(model_1)
+```
+
+```{r}
+VIF(model_1)
+```
+
+
+Going to have to convert my categorical variables.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Comparison
