@@ -20,6 +20,7 @@ library(readr)
 library(knitr)
 library(caret)
 library(regclass)
+library(gbm)
 ```
 
 # `r params$day` Report
@@ -77,19 +78,19 @@ I will be randomly sample from the data in order to form a training(use 70% of t
 
 ```{r}
 set.seed(123)
-# I might need to change this later
-trainIndex <- createDataPartition(data_by_day$cnt, p=0.7, list = FALSE)
+train <- sample(1:nrow(data_by_day), size=nrow(data_by_day)*0.7)
+test <- dplyr::setdiff(1:nrow(data_by_day), train)
 
-train.data_by_day <- data_by_day[trainIndex,]
-test.data_by_day <- data_by_day[-trainIndex,]
+daydataTrain <- data_by_day[train, ]
+daydataTest <- data_by_day[test, ]
 ```
 
 ## Summary Statistics
 
-I need to describe the purpse of this summary statistics/plot and what the reader may be able to deteremine from it.
+I need to describe the purpose of this summary statistics/plot and what the reader may be able to determine from it.
 
 ```{r}
-grouped_mean.sd_on_some_variables <- train.data_by_day %>% group_by(season) %>% summarise(
+grouped_mean.sd_on_some_variables <- daydataTrain %>% group_by(season) %>% summarise(
   n=n(),
   avg_temp = round(mean(temp),2),
   avg_atemp = round(mean(atemp),2),
@@ -120,16 +121,16 @@ kable(grouped_mean.sd_on_some_variables, caption= "Summary Statistics on some of
 
 ```{r}
 # Box plot seasons temperature
-ggplot(train.data_by_day, aes(group=season, temp, y="", fill=season))+geom_boxplot()+ggtitle("Boxplot of temperature based off of Season")+ylab("Seasons")+xlab("Temperature")
+ggplot(daydataTrain, aes(group=season, temp, y="", fill=season))+geom_boxplot()+ggtitle("Boxplot of temperature based off of Season")+ylab("Seasons")+xlab("Temperature")
 
 
 # Scatterplot cnt vs temp based off of season
 
-ggplot(train.data_by_day, aes(x=cnt, y=temp, color=season))+geom_point()+labs(x="Count of total rental bikes", y="Temperature", title="Scatterplot of Temperature vs Count of total rental bikes based off of seasons")
+ggplot(daydataTrain, aes(x=cnt, y=temp, color=season))+geom_point()+labs(x="Count of total rental bikes", y="Temperature", title="Scatterplot of Temperature vs Count of total rental bikes based off of seasons")
 # +geom_smooth(aes(cnt,temp),method=lm), scale_color_gradient(low="blue", high="red")
 
 # Scatterplot of Temperature vs Windspeed
-ggplot(train.data_by_day, aes(x=temp,y=windspeed, color=season))+geom_point()+geom_smooth(aes(temp,windspeed),method=lm)+labs(x="Temperature", y="Windspeed", title="Scatterplot of Temperature vs Windspeed")
+ggplot(daydataTrain, aes(x=temp,y=windspeed, color=season))+geom_point()+geom_smooth(aes(temp,windspeed),method=lm)+labs(x="Temperature", y="Windspeed", title="Scatterplot of Temperature vs Windspeed")
 ```
 
 
@@ -138,14 +139,14 @@ ggplot(train.data_by_day, aes(x=temp,y=windspeed, color=season))+geom_point()+ge
 ## Modeling
 
 
-What Marcus will be doing tomorrow:
+What Marcus will be doing tomorrow(6/28/2021):
 
- explanation of ensemble model and a fit a boosted tree model
- going to have to convert my categorical variables and make sure I did the sampling for the training dataset correctly.
+ explanation of ensemble model 
+ (going to mention that I did not include some of the categorical variables)
 
 ```{r}
 # Did not include the categorical variables
-model_1 <- lm(cnt ~ temp+atemp+hum+windspeed, data=train.data_by_day)
+model_1 <- lm(cnt ~ temp+atemp+hum+windspeed, data=daydataTrain)
 summary(model_1)
 ```
 
@@ -158,7 +159,23 @@ VIF(model_1)
 ```
 
 
-Going to have to convert my categorical variables.
+```{r}
+trctrl <- trainControl(method = "repeatedcv", number=10, repeats=5)
+#create a boosted model tree
+boostree <- train(cnt ~ temp+atemp+hum+windspeed, 
+               method = 'gbm', 
+               trControl=trctrl, 
+               data=daydataTrain, 
+               preProcess=c("center", "scale"),
+               verbose = FALSE)
+#predict the values for our cnt variable and compare it to our testing data. 
+boostree_pred <- predict(boostree, newdata=daydataTest)
+#a frequency of how many of each response there is. 
+boostree_pred2 <- table(boostree_pred, daydataTest$cnt)
+misclass <- 1-(sum(diag(boostree_pred2))/sum(boostree_pred2))
+misclass
+```
+
 
 
 
