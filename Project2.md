@@ -22,16 +22,21 @@ will use to model the response.
 data_days <- read_csv("day.csv")
 ```
 
-After looking at the `day.csv`, the variables not selected for this
+After looking at the `day.csv`, the variables not selected for Marcus
 analysis are listed below:
 
 -   `instant`
 -   `dteday`
 -   `casual` I will be using the `cnt` variable
 -   `registered` I will be using the `cnt` variable
+-   `yr`
+-   `mnth`
+-   `holiday`
+-   `workingday`
+-   `weathersit`
 
 ``` r
-data_days2 <- data_days %>% select(-c(instant, dteday, casual, registered))
+data_days2 <- data_days %>% select(-c(instant, dteday, casual, registered, yr, mnth, holiday, workingday, weathersit))
 ```
 
 ``` r
@@ -45,9 +50,6 @@ data_days3 <- data_days2 %>% mutate(weekday = case_when(weekday==1 ~ "Monday",
 ```
 
 The code below will filter by the day.
-
-Note: The data below might need to be changed depending on how we are
-going to model it.
 
 ``` r
 # The code that is in comment is for the automation later 
@@ -114,6 +116,18 @@ kable(grouped_mean.sd_on_some_variables, caption= "Summary Statistics on some of
 Summary Statistics on some of the variables based off of the different
 seasons
 
+From the summary statistics produced above, we can inspect the averages
+and standard deviations for the `temp`, `atemp` `hum`, `windspeed`,
+`cnt` variables grouped by the `season` variable. Based on the sample
+size for each `season`, we can expect some of the variables to be
+skewed.
+
+Here below are multiple plots based off of some of the variables in the
+`daydataTrain`. For each of these plots, I was trying to get a feeling
+like if the weather is much colder, then there would be a lesser amount
+of total rental bikes including both the `casual` and `registered`
+variable.
+
 ``` r
 # Box plot seasons temperature
 ggplot(daydataTrain, aes(group=season, temp, y="", fill=season))+geom_boxplot()+ggtitle("Boxplot of temperature based off of Season")+ylab("Seasons")+xlab("Temperature")
@@ -130,8 +144,6 @@ ggplot(daydataTrain, aes(x=cnt, y=temp, color=season))+geom_point()+labs(x="Coun
 ![](Project2_files/figure-gfm/unnamed-chunk-8-2.png)<!-- -->
 
 ``` r
-# +geom_smooth(aes(cnt,temp),method=lm), scale_color_gradient(low="blue", high="red")
-
 # Scatterplot of Temperature vs Windspeed
 ggplot(daydataTrain, aes(x=temp,y=windspeed, color=season))+geom_point()+geom_smooth(aes(temp,windspeed),method=lm)+labs(x="Temperature", y="Windspeed", title="Scatterplot of Temperature vs Windspeed")
 ```
@@ -140,12 +152,21 @@ ggplot(daydataTrain, aes(x=temp,y=windspeed, color=season))+geom_point()+geom_sm
 
 ![](Project2_files/figure-gfm/unnamed-chunk-8-3.png)<!-- -->
 
+Looking at the boxplot, we can inspect whether the temperatures are
+skewed based off of season and see potential outliers.
+
+For the 1st scatterplot, we can inspect the relationship between the
+count of total rental bikes against temperature based off of different
+seasons. If we were to make separate regression fit lines, we would
+expect each of the fit lines to have different slopes because we grouped
+by season. So if the total rental bikes increases, we can assume that
+the temperature increases as well.
+
+For the 2nd scatterplot, we can inspect the relationship between the
+temperature and the windspeed based off of the different seasons. Based
+off of the plot, as the temperature increases, windspeed may decrease.
+
 ## Modeling
-
-What Marcus will be doing tomorrow(6/28/2021):
-
-explanation of ensemble model (going to mention that I did not include
-some of the categorical variables)
 
 ``` r
 # Did not include the categorical variables
@@ -197,6 +218,12 @@ VIF(model_1)
 
     ##       temp      atemp        hum  windspeed 
     ## 179.063477 181.408448   1.245382   1.198662
+
+To predict the total amount of rental bikes, I used the ensemble model
+using the `gbm` method and I tuned on the training set(Using repeated
+cross validation). Also, I evaluated on the test data set for figuring
+out the misclassification rate and I would use this to make a better
+model.
 
 ``` r
 trctrl <- trainControl(method = "repeatedcv", number=10, repeats=5)
