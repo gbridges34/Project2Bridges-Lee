@@ -5,16 +5,16 @@ George Bridges and Marcus Lee
 
 # Monday Report
 
-## Introduction section ?
+## Introduction section
 
-This section should briefly describes the data and the variable I will
-have to work with
+This data set contains the daily count of rental bikes between the years
+of 2011 and 2012 in the Capital bike share system with the corresponding
+weather and seasonal information.
 
-Target variable will be the `casual` and/or `registered` variables in
-some way (perhaps the sum of them, that is up to us)
-
-You should also mention the purpose of the analysis and the methods we
-will use to model the response.
+The purpose of our analysis is to try to predict the number of users
+using predictive models which will include linear regressions, and
+different tree models. See the modeling section to know more about which
+models we have used.
 
 ## Data
 
