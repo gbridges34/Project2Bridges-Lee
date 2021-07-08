@@ -49,8 +49,12 @@ After looking at the `day.csv`, the variables not selected for Marcus analysis a
 * `workingday`
 * `weathersit`
 
+George decided to include weathersit, but exclude season. I will be using the 'cnt' variable in place of 'casual' or 'registered.' 
 ```{r}
 data_days2 <- data_days %>% select(-c(instant, dteday, casual, registered, yr, mnth, holiday, workingday, weathersit))
+```
+```{r George data}
+data_days22 <- data_days %>% select(-c(instant, dteday, casual, registered, yr, month, holiday, workingday, season))
 ```
 
 ```{r}
@@ -62,8 +66,16 @@ data_days3 <- data_days2 %>% mutate(weekday = case_when(weekday==1 ~ "Monday",
                                                         weekday==6 ~ "Saturday",
                                                         weekday==0 ~ "Sunday"))
 ```
+```{r}
 
-
+data_days33 <- data_days22 %>% mutate(weekday = case_when(weekday==1 ~ "Monday",
+                                                        weekday==2 ~ "Tuesday",
+                                                        weekday==3 ~ "Wednesday",
+                                                        weekday==4 ~ "Thursday",
+                                                        weekday==5 ~ "Friday",
+                                                        weekday==6 ~ "Saturday",
+                                                        weekday==0 ~ "Sunday"))
+```
 The code below will filter by the day.
 
 ```{r}
