@@ -49,12 +49,12 @@ After looking at the `day.csv`, the variables not selected for Marcus analysis a
 * `workingday`
 * `weathersit`
 
-George decided to include weathersit, but exclude season. I will be using the 'cnt' variable in place of 'casual' or 'registered.' 
+George decided to include weathersit, but exclude season. I also included 'holiday' and 'workingday' I will be using the 'cnt' variable in place of 'casual' or 'registered.' 
 ```{r}
 data_days2 <- data_days %>% select(-c(instant, dteday, casual, registered, yr, mnth, holiday, workingday, weathersit))
 ```
-```{r George data}
-data_days22 <- data_days %>% select(-c(instant, dteday, casual, registered, yr, month, holiday, workingday, season))
+```{r}
+data_days22 <- data_days %>% select(-c(instant, dteday, casual, registered, yr, month, season))
 ```
 
 ```{r}
@@ -83,6 +83,9 @@ The code below will filter by the day.
 # data_by_day <- data_days3 %>% filter(weekday == params$day) 
 data_by_day <- data_days3 %>% filter(weekday=="Monday")
 ```
+```{r}
+data_by_day22 <- data_days33 %>% filter(weekday=="Monday")
+```
 
 
 ## Training and Testing set
@@ -98,12 +101,45 @@ daydataTrain <- data_by_day[train, ]
 daydataTest <- data_by_day[test, ]
 ```
 
+```{r}
+train2 <- sample(1:nrow(data_by_day22), size=nrow(data_by_day22)*0.7)
+test2 <- dplyr::setdiff(1:nrow(data_by_day22), train2)
+
+daydataTrain2 <- data_by_day22[train2, ]
+daydataTest2 <- data_by_day22[test2, ]
+```
+
+
 ## Summary Statistics
 
 I need to describe the purpose of this summary statistics/plot and what the reader may be able to determine from it.
 
 ```{r}
 grouped_mean.sd_on_some_variables <- daydataTrain %>% group_by(season) %>% summarise(
+  n=n(),
+  avg_temp = round(mean(temp),2),
+  avg_atemp = round(mean(atemp),2),
+  avg_hum = round(mean(hum),2),
+  avg_windspeed = round(mean(windspeed),2),
+  avg_cnt = round(mean(cnt),2),
+  sd_temp = round(sd(temp),2),
+  sd_atemp = round(sd(atemp),2),
+  sd_hum = round(sd(hum),2),
+  sd_windspeed = round(sd(windspeed),2),
+  sd_cnt = round(sd(cnt),2)
+) %>% rename('Average temperature'=avg_temp,
+             'Average feeling temperature'=avg_atemp,
+             'Average humidity' = avg_hum,
+             'Average Windspeed' = avg_windspeed,
+             'Average count of total rental bikes'= avg_cnt,
+             'Standard deviation of temperature' = sd_temp,
+             'Standard deviation of feeling temperature' = sd_atemp,
+             'Standard deviation of humidity' = sd_hum,
+             'Standard deviation of windspeed' = sd_windspeed,
+             'Standard deviation of count of total rental bikes' = sd_cnt)
+```
+```{r}
+grouped_meansd <- daydataTrain2 %>% group_by() %>% summarise(
   n=n(),
   avg_temp = round(mean(temp),2),
   avg_atemp = round(mean(atemp),2),
