@@ -159,6 +159,8 @@ grouped_meansd <- daydataTrain2 %>% group_by(weathersit) %>% summarise(
              'Average humidity' = avg_hum,
              'Average Windspeed' = avg_windspeed,
              'Average count of total rental bikes'= avg_cnt,
+             'Proportion of days that are holidays' = avg_hol,
+             'Proportion of days that are working days' = avg_work,
              'Standard deviation of temperature' = sd_temp,
              'Standard deviation of feeling temperature' = sd_atemp,
              'Standard deviation of humidity' = sd_hum,
@@ -170,7 +172,11 @@ grouped_meansd <- daydataTrain2 %>% group_by(weathersit) %>% summarise(
 kable(grouped_mean.sd_on_some_variables, caption= "Summary Statistics on some of the variables based off of the different seasons")
 ```
 ```{r}
-kable(grouped_mean.sd_on_some_variables, caption= "Summary Statistics on some of the variables based off of the different weather situations")
+kable(grouped_meansd, caption= "Summary Statistics on some of the variables based off of the different weather situations")
+```
+Below we see a contingency table that displays holidays and working days. As one would expect, no day is both a working day and a holiday
+```{r}
+table(daydataTrain2$holiday, daydataTrain2$workingday)
 ```
 
 From the summary statistics produced above, we can inspect the averages and standard deviations for the `temp`, `atemp` `hum`, `windspeed`, `cnt` variables grouped by  the `season` variable. Based on the sample size for each `season`, we can expect some of the variables to be skewed. Each of these statistics are also available in the second table except grouped by weather situation. Similarly, we can expect some skewness based on the different numbers of days that were each weather situation. Also note there are the averages for workingdays and holiday, showing just how often a working day and holiday 
@@ -188,15 +194,29 @@ ggplot(daydataTrain, aes(x=cnt, y=temp, color=season))+geom_point()+labs(x="Coun
 # Scatterplot of Temperature vs Windspeed
 ggplot(daydataTrain, aes(x=temp,y=windspeed, color=season))+geom_point()+geom_smooth(aes(temp,windspeed),method=lm)+labs(x="Temperature", y="Windspeed", title="Scatterplot of Temperature vs Windspeed")
 ```
+```{r}
+#boxplot temperature versus weather situation
+ggplot(daydataTrain2, aes(group=season, temp, y="", fill=weathersit))+geom_boxplot()+ggtitle("Boxplot of temperature based off of Weather Situation") +ylab("Weather Situations")+xlab("Temperature")
 
-Looking at the boxplot, we can inspect whether the temperatures are skewed based off of season and see potential outliers.
+#scatterplot cnt vs humidity based off of weather situation
+ggplot(daydataTrain2, aes(x=cnt, y=humidity, color=weathersit))+geom_point()+labs(x="Count of total rental bikes", y="Humidity", title="Scatterplot of Humidity vs Count of total rental bikes based off of weather situations")
+
+# Scatterplot of Humidity vs Windspeed
+ggplot(daydataTrain2, aes(x=humidity,y=windspeed, color=weathersit))+geom_point()+geom_smooth(aes(humidity,windspeed),method=lm)+labs(x="Humidity", y="Windspeed", title="Scatterplot of Humidity vs Windspeed")
+```
+
+Looking at the first boxplot, we can inspect whether the temperatures are skewed based off of season and see potential outliers. For the second boxplot, we can see weather humidity is skewed based off weather situation and see potential outliers.
 
 For the 1st scatterplot, we can inspect the relationship between the count of total rental bikes against temperature based off of different seasons. If we were to make separate regression fit lines, we would expect each of the fit lines to have different slopes because we grouped by season. So if the total rental bikes increases, we can assume that the temperature increases as well.
 
 For the 2nd scatterplot, we can inspect the relationship between the temperature and the windspeed based off of the different seasons. Based off of the plot, as the temperature increases, windspeed may decrease.
 
-## Modeling
 
+For the 3rd scatterplot, we can see the relationship between total rental bikes against humidity based on weather situation. I would expect higher humidity to mean less rented bikes.
+
+For the 4th scatterplot, we can see the relationship between windspeed and humidity in the different weather situations. I would not expect to see a strong relationship here for any of the weather situations, though it is possible that dryer air is lighter and therefore might blow a little faster but that is pure speculation on George's part.
+## Modeling
+A linear regression model attempts to model the relationship between variables by fitting a linear equation to observed data. The most common method of fitting is that of least squares, in which the line is 'drawn' based on the line that will minimize the sum of the squares of the vertical deviations of each data point from the line, also called the residuals of each data point. If a single explanatory variable is used, the model is called simple linear regression, if multiple explanatory variables are used then it is called multiple linear regression.
 ```{r}
 # Did not include the categorical variables
 model_1 <- lm(cnt ~ temp+atemp+hum+windspeed, data=daydataTrain)
@@ -209,6 +229,18 @@ anova(model_1)
 
 ```{r}
 VIF(model_1)
+```
+```{r}
+#included weathersit and temp, the two variables I thought would be most predictive
+model_2 <- lm(cnt ~ weathersit+temp, data=daydataTrain2)
+summary(model_2)
+```
+```{r}
+anova(model_2)
+```
+
+```{r}
+VIF(model_2)
 ```
 
 
