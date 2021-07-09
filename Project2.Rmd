@@ -242,6 +242,22 @@ anova(model_2)
 ```{r}
 VIF(model_2)
 ```
+The idea of fitting a random forest model is that you take bootstrap samples, and fit a tree to each of those using a random subset of the predictors. Finally, you average the results. I used the 'rf' method, the training data set, and repeated cross validation to fit the model, I then test it on the test data. 
+```{r}
+trctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 10)
+#create random forest model
+raFore <- train(cnt ~ temp+atemp+hum+windspeed+weathersit,
+                method = "rf",
+                trControl = trctrl,
+                data = daydataTrain2,
+                preProcess = c("center", "scale"))
+#predict for our cnt variable and compare to test data
+raFore_pred <- predict(faFore, newdata = daydataTest2)
+
+raFore_pred2 <- table(raFore_pred, daydataTest2$cnt)
+misclass2 <- 1 - (sum(diag(raFore_pred2))/sum(raFore_pred2))
+misclass2
+```
 
 
 To predict the total amount of rental bikes, I used the ensemble model using the `gbm` method and I tuned on the training set(Using repeated cross validation). Also, I evaluated on the test data set for figuring out the misclassification rate and I would use this to make a better model.
