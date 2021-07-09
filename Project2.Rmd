@@ -139,18 +139,21 @@ grouped_mean.sd_on_some_variables <- daydataTrain %>% group_by(season) %>% summa
              'Standard deviation of count of total rental bikes' = sd_cnt)
 ```
 ```{r}
-grouped_meansd <- daydataTrain2 %>% group_by() %>% summarise(
+grouped_meansd <- daydataTrain2 %>% group_by(weathersit) %>% summarise(
   n=n(),
   avg_temp = round(mean(temp),2),
   avg_atemp = round(mean(atemp),2),
   avg_hum = round(mean(hum),2),
   avg_windspeed = round(mean(windspeed),2),
   avg_cnt = round(mean(cnt),2),
+  avg_hol = round(mean(holiday),2),
+  avg_work = round(mean(workingday),2),
   sd_temp = round(sd(temp),2),
   sd_atemp = round(sd(atemp),2),
   sd_hum = round(sd(hum),2),
   sd_windspeed = round(sd(windspeed),2),
   sd_cnt = round(sd(cnt),2)
+  
 ) %>% rename('Average temperature'=avg_temp,
              'Average feeling temperature'=avg_atemp,
              'Average humidity' = avg_hum,
@@ -166,8 +169,11 @@ grouped_meansd <- daydataTrain2 %>% group_by() %>% summarise(
 ```{r}
 kable(grouped_mean.sd_on_some_variables, caption= "Summary Statistics on some of the variables based off of the different seasons")
 ```
+```{r}
+kable(grouped_mean.sd_on_some_variables, caption= "Summary Statistics on some of the variables based off of the different weather situations")
+```
 
-From the summary statistics produced above, we can inspect the averages and standard deviations for the `temp`, `atemp` `hum`, `windspeed`, `cnt` variables grouped by  the `season` variable. Based on the sample size for each `season`, we can expect some of the variables to be skewed.
+From the summary statistics produced above, we can inspect the averages and standard deviations for the `temp`, `atemp` `hum`, `windspeed`, `cnt` variables grouped by  the `season` variable. Based on the sample size for each `season`, we can expect some of the variables to be skewed. Each of these statistics are also available in the second table except grouped by weather situation. Similarly, we can expect some skewness based on the different numbers of days that were each weather situation. Also note there are the averages for workingdays and holiday, showing just how often a working day and holiday 
 
 Here below are multiple plots based off of some of the variables in the `daydataTrain`. For each of these plots, I was trying to get a feeling like if the weather is much colder, then there would be a lesser amount of total rental bikes including both the `casual` and `registered` variable.
 
