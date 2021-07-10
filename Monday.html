@@ -377,9 +377,9 @@ body {
 <pre><code>## weathersit       temp 
 ##   1.006228   1.006228</code></pre>
 <p>The idea of fitting a random forest model is that you take bootstrap samples, and fit a tree to each of those using a random subset of the predictors. Finally, you average the results. I used the ‘rf’ method, the training data set, and repeated cross validation to fit the model, I then test it on the test data.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>trctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="at">number =</span> <span class="dv">10</span>, <span class="at">repeats =</span> <span class="dv">10</span>)</span>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>trctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="at">number =</span> <span class="dv">4</span>, <span class="at">repeats =</span> <span class="dv">3</span>)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co">#create random forest model</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>raFore <span class="ot">&lt;-</span> <span class="fu">train</span>(cnt <span class="sc">~</span> temp<span class="sc">+</span>atemp<span class="sc">+</span>hum<span class="sc">+</span>windspeed<span class="sc">+</span>weathersit,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>raFore <span class="ot">&lt;-</span> <span class="fu">train</span>(cnt <span class="sc">~</span> temp <span class="sc">+</span> atemp <span class="sc">+</span> hum <span class="sc">+</span> windspeed,</span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">&quot;rf&quot;</span>,</span>
 <span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">trControl =</span> trctrl,</span>
 <span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> daydataTrain2,</span>
@@ -390,7 +390,7 @@ body {
 <span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>raFore_pred2 <span class="ot">&lt;-</span> <span class="fu">table</span>(raFore_pred, daydataTest2<span class="sc">$</span>cnt)</span>
 <span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>misclass2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> (<span class="fu">sum</span>(<span class="fu">diag</span>(raFore_pred2))<span class="sc">/</span><span class="fu">sum</span>(raFore_pred2))</span>
 <span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>misclass2</span></code></pre></div>
-<pre><code>## [1] 1</code></pre>
+<pre><code>## [1] 0.9375</code></pre>
 <p>To predict the total amount of rental bikes, I used the ensemble model using the <code>gbm</code> method and I tuned on the training set(Using repeated cross validation). Also, I evaluated on the test data set for figuring out the misclassification rate and I would use this to make a better model.</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>trctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="at">number=</span><span class="dv">10</span>, <span class="at">repeats=</span><span class="dv">5</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co">#create a boosted model tree</span></span>
@@ -406,8 +406,20 @@ body {
 <span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>boostree_pred2 <span class="ot">&lt;-</span> <span class="fu">table</span>(boostree_pred, daydataTest<span class="sc">$</span>cnt)</span>
 <span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>misclass <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span>(<span class="fu">sum</span>(<span class="fu">diag</span>(boostree_pred2))<span class="sc">/</span><span class="fu">sum</span>(boostree_pred2))</span>
 <span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>misclass</span></code></pre></div>
-<pre><code>## [1] 0.9375</code></pre>
+<pre><code>## [1] 0.96875</code></pre>
 <h2 id="comparison">Comparison</h2>
+<p>I will now compare our four models directly in order to declare a “winner,” that is the model that has the lowest RMSE.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>prediction1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_1, <span class="at">newdata =</span> daydataTest)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>prediction2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_2, <span class="at">newdata =</span> daydataTest2)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>prediction3 <span class="ot">&lt;-</span> <span class="fu">predict</span>(raFore, <span class="at">newdata =</span> daydataTest2)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>prediction4 <span class="ot">&lt;-</span> <span class="fu">predict</span>(boostree, <span class="at">newdata =</span> daydataTest)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>rmse1 <span class="ot">&lt;-</span> <span class="fu">postResample</span>(prediction1, <span class="at">obs =</span> daydataTest<span class="sc">$</span>cnt)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>rmse2 <span class="ot">&lt;-</span> <span class="fu">postResample</span>(prediction2, <span class="at">obs =</span> daydataTest2<span class="sc">$</span>cnt)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>rmse3 <span class="ot">&lt;-</span> <span class="fu">postResample</span>(prediction3, <span class="at">obs =</span> daydataTest2<span class="sc">$</span>cnt)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>rmse4 <span class="ot">&lt;-</span> <span class="fu">postResample</span>(prediction4, <span class="at">obs =</span> daydataTest<span class="sc">$</span>cnt)</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="co">#table(rmse1[1], rmse2[1], rmse3[1], rmse4[1])</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(rmse1[<span class="dv">1</span>], rmse2[<span class="dv">1</span>], rmse3[<span class="dv">1</span>], rmse4[<span class="dv">1</span>])</span></code></pre></div>
+<p>According to the table, model_1 has the lowest RMSE, and is therefore the winning model.</p>
 
 </body>
 </html>
