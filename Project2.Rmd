@@ -21,6 +21,7 @@ library(knitr)
 library(caret)
 library(regclass)
 library(gbm)
+library(Metrics)
 ```
 
 # `r params$day` Report
@@ -298,6 +299,13 @@ misclass
 
 ## Comparison
 I will now compare our four models directly in order to declare a "winner," that is the model that has the (insert metric here). 
+```{r}
+prediction1 <- predict(model_1, newdata = daydataTest)
+prediction2 <- predict(model_2, newdata = daydataTest2)
+
+rmse(prediction1, daydataTest$cnt)
+rmse(prediction2, daydataTest2$cnt)
+```
 
 
 
