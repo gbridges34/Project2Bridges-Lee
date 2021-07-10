@@ -3,34 +3,14 @@ ST 558 Project 2
 George Bridges and Marcus Lee
 6/27/2021
 
-For the readme.md:
+# Automate day reports using Project2.Rmd
 
-needs a brief description of the purpose of the repo.
+So for this project, we are trying to automate R markdown. The code down
+below passes a list of the days into `Project2.Rmd`.
 
-You should also state all the packages required to run the analyses you
-do.
-
-``` r
-library(dplyr)
-```
-
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
+Packages required to run the analyses are in the `Project2.Rmd` file.
 
 ``` r
-library(knitr)
-```
-
-``` r
-#Automation of reports
 days = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday")
 output_days_file = paste0(days, ".md")
 
@@ -41,12 +21,13 @@ params = lapply(days, FUN=function(x){
 report_by_day = tibble(days, output_days_file, params)
 ```
 
+# Generating the days’ reports.
+
 ``` r
-# generating the reports
 library(rmarkdown)
 
 apply(report_by_day, MARGIN = 1, FUN=function(x){
-  render(input = "Project2.Rmd", output_file = x[[1]], params=x[[3]])
+  render(input = "Project2.Rmd", output_file = x[[2]], params=x[[3]])
 })
 ```
 
