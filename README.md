@@ -3,6 +3,21 @@ ST 558 Project 2
 George Bridges and Marcus Lee
 6/27/2021
 
+# List of packages we have used
+
+Packages we have used for this project:
+
+-   `ggplot2`
+-   `tidyverse`
+-   `dplyr`
+-   `caret`
+-   `tidyr`
+-   `readr`
+-   `knitr`
+-   `regclass`
+-   `gbm`
+-   `Metrics`
+
 # Automate day reports using Project2.Rmd
 
 So for this project, we are trying to automate R markdown. The code down
