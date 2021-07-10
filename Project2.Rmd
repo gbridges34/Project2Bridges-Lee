@@ -262,7 +262,7 @@ The idea of fitting a random forest model is that you take bootstrap samples, an
 ```{r}
 trctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 10)
 #create random forest model
-raFore <- train(cnt ~ temp+atemp+hum+windspeed+weathersit,
+raFore <- train(cnt ~ temp,
                 method = "rf",
                 trControl = trctrl,
                 data = daydataTrain2,
@@ -297,7 +297,7 @@ misclass
 
 
 ## Comparison
-
+I will now compare our four models directly in order to declare a "winner," that is the model that has the (insert metric here). 
 
 
 
