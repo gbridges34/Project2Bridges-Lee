@@ -406,9 +406,9 @@ the training data set, and repeated cross validation to fit the model, I
 then test it on the test data.
 
 ``` r
-trctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 10)
+trctrl <- trainControl(method = "repeatedcv", number = 4, repeats = 3)
 #create random forest model
-raFore <- train(cnt ~ temp+atemp+hum+windspeed+weathersit,
+raFore <- train(cnt ~ temp + atemp + hum + windspeed,
                 method = "rf",
                 trControl = trctrl,
                 data = daydataTrain2,
@@ -421,7 +421,7 @@ misclass2 <- 1 - (sum(diag(raFore_pred2))/sum(raFore_pred2))
 misclass2
 ```
 
-    ## [1] 1
+    ## [1] 0.9375
 
 To predict the total amount of rental bikes, I used the ensemble model
 using the `gbm` method and I tuned on the training set(Using repeated
@@ -446,6 +446,25 @@ misclass <- 1-(sum(diag(boostree_pred2))/sum(boostree_pred2))
 misclass
 ```
 
-    ## [1] 0.9375
+    ## [1] 0.96875
 
 ## Comparison
+
+I will now compare our four models directly in order to declare a
+“winner,” that is the model that has the (insert metric here).
+
+``` r
+prediction1 <- predict(model_1, newdata = daydataTest)
+prediction2 <- predict(model_2, newdata = daydataTest2)
+postResample(prediction1, obs = daydataTest$cnt)
+```
+
+    ##         RMSE     Rsquared          MAE 
+    ## 1144.6763890    0.5099379  930.6751896
+
+``` r
+postResample(prediction2, obs = daydataTest2$cnt)
+```
+
+    ##         RMSE     Rsquared          MAE 
+    ## 1555.2715819    0.4378803 1267.0126550
