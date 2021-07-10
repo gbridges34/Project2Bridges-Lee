@@ -222,7 +222,7 @@ variable.
 ggplot(daydataTrain, aes(group=season, temp, y="", fill=season))+geom_boxplot()+ggtitle("Boxplot of temperature based off of Season")+ylab("Seasons")+xlab("Temperature")
 ```
 
-![](Project2_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](Monday_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 ``` r
 # Scatterplot cnt vs temp based off of season
@@ -230,7 +230,7 @@ ggplot(daydataTrain, aes(group=season, temp, y="", fill=season))+geom_boxplot()+
 ggplot(daydataTrain, aes(x=cnt, y=temp, color=season))+geom_point()+labs(x="Count of total rental bikes", y="Temperature", title="Scatterplot of Temperature vs Count of total rental bikes based off of seasons")
 ```
 
-![](Project2_files/figure-gfm/unnamed-chunk-15-2.png)<!-- -->
+![](Monday_files/figure-gfm/unnamed-chunk-16-2.png)<!-- -->
 
 ``` r
 # Scatterplot of Temperature vs Windspeed
@@ -239,21 +239,21 @@ ggplot(daydataTrain, aes(x=temp,y=windspeed, color=season))+geom_point()+geom_sm
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](Project2_files/figure-gfm/unnamed-chunk-15-3.png)<!-- -->
+![](Monday_files/figure-gfm/unnamed-chunk-16-3.png)<!-- -->
 
 ``` r
 #boxplot temperature versus weather situation
 ggplot(daydataTrain2, aes(group=weathersit, temp, y="", fill=weathersit))+geom_boxplot()+ggtitle("Boxplot of temperature based off of Weather Situation") +ylab("Weather Situations")+xlab("Temperature")
 ```
 
-![](Project2_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](Monday_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
 
 ``` r
 #scatterplot cnt vs humidity based off of weather situation
 ggplot(daydataTrain2, aes(x=cnt, y=hum, color=weathersit))+geom_point()+labs(x="Count of total rental bikes", y="Humidity", title="Scatterplot of Humidity vs Count of total rental bikes based off of weather situations")
 ```
 
-![](Project2_files/figure-gfm/unnamed-chunk-16-2.png)<!-- -->
+![](Monday_files/figure-gfm/unnamed-chunk-17-2.png)<!-- -->
 
 ``` r
 # Scatterplot of Humidity vs Windspeed
@@ -262,7 +262,7 @@ ggplot(daydataTrain2, aes(x=hum,y=windspeed, color=weathersit))+geom_point()+geo
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](Project2_files/figure-gfm/unnamed-chunk-16-3.png)<!-- -->
+![](Monday_files/figure-gfm/unnamed-chunk-17-3.png)<!-- -->
 
 Looking at the first boxplot, we can inspect whether the temperatures
 are skewed based off of season and see potential outliers. For the

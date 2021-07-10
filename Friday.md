@@ -3,7 +3,7 @@ Project 2
 George Bridges and Marcus Lee
 6/27/2021
 
-# Monday Report
+# Friday Report
 
 ## Introduction section
 
@@ -169,10 +169,10 @@ kable(grouped_mean.sd_on_some_variables, caption= "Summary Statistics on some of
 
 | season |   n | Average temperature | Average feeling temperature | Average humidity | Average Windspeed | Average count of total rental bikes | Standard deviation of temperature | Standard deviation of feeling temperature | Standard deviation of humidity | Standard deviation of windspeed | Standard deviation of count of total rental bikes |
 |-------:|----:|--------------------:|----------------------------:|-----------------:|------------------:|------------------------------------:|----------------------------------:|------------------------------------------:|-------------------------------:|--------------------------------:|--------------------------------------------------:|
-|      1 |  14 |                0.27 |                        0.28 |             0.56 |              0.22 |                             2312.64 |                              0.10 |                                      0.09 |                           0.15 |                            0.10 |                                           1201.64 |
-|      2 |  20 |                0.55 |                        0.52 |             0.62 |              0.24 |                             4354.45 |                              0.13 |                                      0.11 |                           0.15 |                            0.08 |                                           1390.04 |
-|      3 |  22 |                0.70 |                        0.65 |             0.65 |              0.17 |                             5720.95 |                              0.06 |                                      0.05 |                           0.10 |                            0.06 |                                           1292.39 |
-|      4 |  17 |                0.46 |                        0.46 |             0.72 |              0.14 |                             4810.47 |                              0.11 |                                      0.09 |                           0.13 |                            0.08 |                                           1839.12 |
+|      1 |  15 |                0.32 |                        0.32 |             0.60 |              0.22 |                             2915.07 |                              0.10 |                                      0.09 |                           0.13 |                            0.10 |                                           1138.92 |
+|      2 |  19 |                0.50 |                        0.48 |             0.57 |              0.22 |                             4831.79 |                              0.14 |                                      0.13 |                           0.15 |                            0.06 |                                           1958.46 |
+|      3 |  22 |                0.73 |                        0.65 |             0.63 |              0.16 |                             5796.14 |                              0.07 |                                      0.11 |                           0.13 |                            0.05 |                                           1546.11 |
+|      4 |  16 |                0.44 |                        0.43 |             0.67 |              0.16 |                             4859.00 |                              0.11 |                                      0.10 |                           0.13 |                            0.06 |                                           1596.60 |
 
 Summary Statistics on some of the variables based off of the different
 seasons
@@ -183,8 +183,8 @@ kable(grouped_meansd, caption= "Summary Statistics on some of the variables base
 
 | weathersit |   n | Average temperature | Average feeling temperature | Average humidity | Average Windspeed | Average count of total rental bikes | Proportion of days that are holidays | Proportion of days that are working days | Standard deviation of temperature | Standard deviation of feeling temperature | Standard deviation of humidity | Standard deviation of windspeed | Standard deviation of count of total rental bikes |
 |-----------:|----:|--------------------:|----------------------------:|-----------------:|------------------:|------------------------------------:|-------------------------------------:|-----------------------------------------:|----------------------------------:|------------------------------------------:|-------------------------------:|--------------------------------:|--------------------------------------------------:|
-|          1 |  47 |                0.51 |                        0.49 |             0.58 |              0.19 |                             4387.23 |                                 0.19 |                                     0.81 |                              0.19 |                                      0.17 |                           0.13 |                            0.09 |                                           1702.33 |
-|          2 |  26 |                0.48 |                        0.46 |             0.72 |              0.19 |                             4020.92 |                                 0.15 |                                     0.85 |                              0.18 |                                      0.16 |                           0.11 |                            0.07 |                                           1742.77 |
+|          1 |  48 |                0.53 |                        0.50 |             0.56 |              0.18 |                             5219.46 |                                    0 |                                        1 |                              0.19 |                                      0.17 |                           0.10 |                            0.07 |                                           1736.92 |
+|          2 |  24 |                0.42 |                        0.41 |             0.67 |              0.20 |                             3512.79 |                                    0 |                                        1 |                              0.17 |                                      0.16 |                           0.13 |                            0.07 |                                           1789.23 |
 
 Summary Statistics on some of the variables based off of the different
 weather situations
@@ -197,9 +197,8 @@ table(daydataTrain2$holiday, daydataTrain2$workingday)
 ```
 
     ##    
-    ##      0  1
-    ##   0  0 60
-    ##   1 13  0
+    ##      1
+    ##   0 72
 
 From the summary statistics produced above, we can inspect the averages
 and standard deviations for the `temp`, `atemp` `hum`, `windspeed`,
@@ -222,7 +221,7 @@ variable.
 ggplot(daydataTrain, aes(group=season, temp, y="", fill=season))+geom_boxplot()+ggtitle("Boxplot of temperature based off of Season")+ylab("Seasons")+xlab("Temperature")
 ```
 
-![](Project2_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](Friday_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 ``` r
 # Scatterplot cnt vs temp based off of season
@@ -230,7 +229,7 @@ ggplot(daydataTrain, aes(group=season, temp, y="", fill=season))+geom_boxplot()+
 ggplot(daydataTrain, aes(x=cnt, y=temp, color=season))+geom_point()+labs(x="Count of total rental bikes", y="Temperature", title="Scatterplot of Temperature vs Count of total rental bikes based off of seasons")
 ```
 
-![](Project2_files/figure-gfm/unnamed-chunk-15-2.png)<!-- -->
+![](Friday_files/figure-gfm/unnamed-chunk-15-2.png)<!-- -->
 
 ``` r
 # Scatterplot of Temperature vs Windspeed
@@ -239,21 +238,21 @@ ggplot(daydataTrain, aes(x=temp,y=windspeed, color=season))+geom_point()+geom_sm
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](Project2_files/figure-gfm/unnamed-chunk-15-3.png)<!-- -->
+![](Friday_files/figure-gfm/unnamed-chunk-15-3.png)<!-- -->
 
 ``` r
 #boxplot temperature versus weather situation
 ggplot(daydataTrain2, aes(group=weathersit, temp, y="", fill=weathersit))+geom_boxplot()+ggtitle("Boxplot of temperature based off of Weather Situation") +ylab("Weather Situations")+xlab("Temperature")
 ```
 
-![](Project2_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](Friday_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 ``` r
 #scatterplot cnt vs humidity based off of weather situation
 ggplot(daydataTrain2, aes(x=cnt, y=hum, color=weathersit))+geom_point()+labs(x="Count of total rental bikes", y="Humidity", title="Scatterplot of Humidity vs Count of total rental bikes based off of weather situations")
 ```
 
-![](Project2_files/figure-gfm/unnamed-chunk-16-2.png)<!-- -->
+![](Friday_files/figure-gfm/unnamed-chunk-16-2.png)<!-- -->
 
 ``` r
 # Scatterplot of Humidity vs Windspeed
@@ -262,7 +261,7 @@ ggplot(daydataTrain2, aes(x=hum,y=windspeed, color=weathersit))+geom_point()+geo
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](Project2_files/figure-gfm/unnamed-chunk-16-3.png)<!-- -->
+![](Friday_files/figure-gfm/unnamed-chunk-16-3.png)<!-- -->
 
 Looking at the first boxplot, we can inspect whether the temperatures
 are skewed based off of season and see potential outliers. For the
@@ -312,22 +311,22 @@ summary(model_1)
     ## lm(formula = cnt ~ temp + atemp + hum + windspeed, data = daydataTrain)
     ## 
     ## Residuals:
-    ##      Min       1Q   Median       3Q      Max 
-    ## -3059.61  -774.06    18.58  1034.68  2144.22 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -3290.9 -1164.0  -143.6  1243.2  3104.6 
     ## 
     ## Coefficients:
     ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)     3393       1114   3.045 0.003306 ** 
-    ## temp          -22694      11490  -1.975 0.052312 .  
-    ## atemp          33655      13155   2.558 0.012748 *  
-    ## hum            -4555       1225  -3.719 0.000407 ***
-    ## windspeed      -4851       1953  -2.484 0.015463 *  
+    ## (Intercept)     5073       1304   3.889 0.000234 ***
+    ## temp            7305       3083   2.370 0.020700 *  
+    ## atemp          -2284       3489  -0.655 0.514947    
+    ## hum            -3748       1394  -2.688 0.009067 ** 
+    ## windspeed      -3722       2692  -1.383 0.171271    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 1308 on 68 degrees of freedom
-    ## Multiple R-squared:  0.5278, Adjusted R-squared:    0.5 
-    ## F-statistic:    19 on 4 and 68 DF,  p-value: 1.575e-10
+    ## Residual standard error: 1535 on 67 degrees of freedom
+    ## Multiple R-squared:  0.3695, Adjusted R-squared:  0.3319 
+    ## F-statistic: 9.816 on 4 and 67 DF,  p-value: 2.605e-06
 
 ``` r
 anova(model_1)
@@ -337,11 +336,11 @@ anova(model_1)
     ## 
     ## Response: cnt
     ##           Df    Sum Sq  Mean Sq F value    Pr(>F)    
-    ## temp       1  93008306 93008306 54.3393 3.026e-10 ***
-    ## atemp      1   9098506  9098506  5.3157  0.024191 *  
-    ## hum        1  17434204 17434204 10.1858  0.002143 ** 
-    ## windspeed  1  10560585 10560585  6.1699  0.015463 *  
-    ## Residuals 68 116390308  1711622                      
+    ## temp       1  73866049 73866049 31.3329 4.377e-07 ***
+    ## atemp      1    552433   552433  0.2343   0.62991    
+    ## hum        1  13637966 13637966  5.7850   0.01893 *  
+    ## windspeed  1   4508769  4508769  1.9126   0.17127    
+    ## Residuals 67 157949669  2357458                      
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -349,8 +348,8 @@ anova(model_1)
 VIF(model_1)
 ```
 
-    ##       temp      atemp        hum  windspeed 
-    ## 179.063477 181.408448   1.245382   1.198662
+    ##      temp     atemp       hum windspeed 
+    ##  9.735573  9.840068  1.079310  1.128985
 
 ``` r
 #included weathersit and temp, the two variables I thought would be most predictive
@@ -363,20 +362,20 @@ summary(model_2)
     ## lm(formula = cnt ~ weathersit + temp, data = daydataTrain2)
     ## 
     ## Residuals:
-    ##      Min       1Q   Median       3Q      Max 
-    ## -2095.66  -946.17   -23.58  1130.28  2708.02 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -3014.6 -1185.1  -364.1  1365.7  3892.0 
     ## 
     ## Coefficients:
     ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)   1355.7      627.4   2.161   0.0341 *  
-    ## weathersit    -177.2      311.6  -0.569   0.5715    
-    ## temp          6237.3      808.6   7.714 6.14e-11 ***
+    ## (Intercept)   3560.2      803.9   4.429 3.47e-05 ***
+    ## weathersit   -1137.7      382.6  -2.974  0.00405 ** 
+    ## temp          5293.9      962.9   5.498 6.06e-07 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 1271 on 70 degrees of freedom
-    ## Multiple R-squared:  0.4652, Adjusted R-squared:   0.45 
-    ## F-statistic: 30.45 on 2 and 70 DF,  p-value: 3.06e-10
+    ## Residual standard error: 1473 on 69 degrees of freedom
+    ## Multiple R-squared:  0.4283, Adjusted R-squared:  0.4117 
+    ## F-statistic: 25.85 on 2 and 69 DF,  p-value: 4.19e-09
 
 ``` r
 anova(model_2)
@@ -386,9 +385,9 @@ anova(model_2)
     ## 
     ## Response: cnt
     ##            Df    Sum Sq  Mean Sq F value    Pr(>F)    
-    ## weathersit  1   2246199  2246199  1.3903    0.2423    
-    ## temp        1  96142284 96142284 59.5077 6.137e-11 ***
-    ## Residuals  70 113093986  1615628                      
+    ## weathersit  1  46603378 46603378  21.466 1.648e-05 ***
+    ## temp        1  65624166 65624166  30.227 6.061e-07 ***
+    ## Residuals  69 149800511  2171022                      
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -397,7 +396,7 @@ VIF(model_2)
 ```
 
     ## weathersit       temp 
-    ##   1.006228   1.006228
+    ##   1.078922   1.078922
 
 The idea of fitting a random forest model is that you take bootstrap
 samples, and fit a tree to each of those using a random subset of the
@@ -421,7 +420,7 @@ misclass2 <- 1 - (sum(diag(raFore_pred2))/sum(raFore_pred2))
 misclass2
 ```
 
-    ## [1] 1
+    ## [1] 0.9375
 
 To predict the total amount of rental bikes, I used the ensemble model
 using the `gbm` method and I tuned on the training set(Using repeated
@@ -446,6 +445,6 @@ misclass <- 1-(sum(diag(boostree_pred2))/sum(boostree_pred2))
 misclass
 ```
 
-    ## [1] 0.9375
+    ## [1] 0.875
 
 ## Comparison

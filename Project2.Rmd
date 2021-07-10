@@ -50,11 +50,13 @@ After looking at the `day.csv`, the variables not selected for Marcus analysis a
 * `weathersit`
 
 George decided to include weathersit, but exclude season. I also included 'holiday' and 'workingday' I will be using the 'cnt' variable in place of 'casual' or 'registered.' 
+
 ```{r}
 data_days2 <- data_days %>% select(-c(instant, dteday, casual, registered, yr, mnth, holiday, workingday, weathersit))
 ```
+
 ```{r}
-data_days22 <- data_days %>% select(-c(instant, dteday, casual, registered, yr, month, season))
+data_days22 <- data_days %>% select(-c(instant, dteday, casual, registered, yr, mnth, season))
 ```
 
 ```{r}
@@ -66,6 +68,7 @@ data_days3 <- data_days2 %>% mutate(weekday = case_when(weekday==1 ~ "Monday",
                                                         weekday==6 ~ "Saturday",
                                                         weekday==0 ~ "Sunday"))
 ```
+
 ```{r}
 
 data_days33 <- data_days22 %>% mutate(weekday = case_when(weekday==1 ~ "Monday",
@@ -76,15 +79,18 @@ data_days33 <- data_days22 %>% mutate(weekday = case_when(weekday==1 ~ "Monday",
                                                         weekday==6 ~ "Saturday",
                                                         weekday==0 ~ "Sunday"))
 ```
+
 The code below will filter by the day.
 
 ```{r}
 # The code that is in comment is for the automation later 
-# data_by_day <- data_days3 %>% filter(weekday == params$day) 
-data_by_day <- data_days3 %>% filter(weekday=="Monday")
+data_by_day <- data_days3 %>% filter(weekday == params$day) 
+#data_by_day <- data_days3 %>% filter(weekday=="Monday")
 ```
+
 ```{r}
-data_by_day22 <- data_days33 %>% filter(weekday=="Monday")
+#data_by_day22 <- data_days33 %>% filter(weekday=="Monday")
+data_by_day22 <- data_days33 %>% filter(weekday == params$day)
 ```
 
 
@@ -138,6 +144,7 @@ grouped_mean.sd_on_some_variables <- daydataTrain %>% group_by(season) %>% summa
              'Standard deviation of windspeed' = sd_windspeed,
              'Standard deviation of count of total rental bikes' = sd_cnt)
 ```
+
 ```{r}
 grouped_meansd <- daydataTrain2 %>% group_by(weathersit) %>% summarise(
   n=n(),
@@ -171,10 +178,13 @@ grouped_meansd <- daydataTrain2 %>% group_by(weathersit) %>% summarise(
 ```{r}
 kable(grouped_mean.sd_on_some_variables, caption= "Summary Statistics on some of the variables based off of the different seasons")
 ```
+
 ```{r}
 kable(grouped_meansd, caption= "Summary Statistics on some of the variables based off of the different weather situations")
 ```
+
 Below we see a contingency table that displays holidays and working days. As one would expect, no day is both a working day and a holiday
+
 ```{r}
 table(daydataTrain2$holiday, daydataTrain2$workingday)
 ```
@@ -196,13 +206,13 @@ ggplot(daydataTrain, aes(x=temp,y=windspeed, color=season))+geom_point()+geom_sm
 ```
 ```{r}
 #boxplot temperature versus weather situation
-ggplot(daydataTrain2, aes(group=season, temp, y="", fill=weathersit))+geom_boxplot()+ggtitle("Boxplot of temperature based off of Weather Situation") +ylab("Weather Situations")+xlab("Temperature")
+ggplot(daydataTrain2, aes(group=weathersit, temp, y="", fill=weathersit))+geom_boxplot()+ggtitle("Boxplot of temperature based off of Weather Situation") +ylab("Weather Situations")+xlab("Temperature")
 
 #scatterplot cnt vs humidity based off of weather situation
-ggplot(daydataTrain2, aes(x=cnt, y=humidity, color=weathersit))+geom_point()+labs(x="Count of total rental bikes", y="Humidity", title="Scatterplot of Humidity vs Count of total rental bikes based off of weather situations")
+ggplot(daydataTrain2, aes(x=cnt, y=hum, color=weathersit))+geom_point()+labs(x="Count of total rental bikes", y="Humidity", title="Scatterplot of Humidity vs Count of total rental bikes based off of weather situations")
 
 # Scatterplot of Humidity vs Windspeed
-ggplot(daydataTrain2, aes(x=humidity,y=windspeed, color=weathersit))+geom_point()+geom_smooth(aes(humidity,windspeed),method=lm)+labs(x="Humidity", y="Windspeed", title="Scatterplot of Humidity vs Windspeed")
+ggplot(daydataTrain2, aes(x=hum,y=windspeed, color=weathersit))+geom_point()+geom_smooth(aes(hum,windspeed),method=lm)+labs(x="Humidity", y="Windspeed", title="Scatterplot of Humidity vs Windspeed")
 ```
 
 Looking at the first boxplot, we can inspect whether the temperatures are skewed based off of season and see potential outliers. For the second boxplot, we can see weather humidity is skewed based off weather situation and see potential outliers.
@@ -211,12 +221,14 @@ For the 1st scatterplot, we can inspect the relationship between the count of to
 
 For the 2nd scatterplot, we can inspect the relationship between the temperature and the windspeed based off of the different seasons. Based off of the plot, as the temperature increases, windspeed may decrease.
 
-
 For the 3rd scatterplot, we can see the relationship between total rental bikes against humidity based on weather situation. I would expect higher humidity to mean less rented bikes.
 
 For the 4th scatterplot, we can see the relationship between windspeed and humidity in the different weather situations. I would not expect to see a strong relationship here for any of the weather situations, though it is possible that dryer air is lighter and therefore might blow a little faster but that is pure speculation on George's part.
+
 ## Modeling
+
 A linear regression model attempts to model the relationship between variables by fitting a linear equation to observed data. The most common method of fitting is that of least squares, in which the line is 'drawn' based on the line that will minimize the sum of the squares of the vertical deviations of each data point from the line, also called the residuals of each data point. If a single explanatory variable is used, the model is called simple linear regression, if multiple explanatory variables are used then it is called multiple linear regression.
+
 ```{r}
 # Did not include the categorical variables
 model_1 <- lm(cnt ~ temp+atemp+hum+windspeed, data=daydataTrain)
@@ -230,11 +242,13 @@ anova(model_1)
 ```{r}
 VIF(model_1)
 ```
+
 ```{r}
 #included weathersit and temp, the two variables I thought would be most predictive
 model_2 <- lm(cnt ~ weathersit+temp, data=daydataTrain2)
 summary(model_2)
 ```
+
 ```{r}
 anova(model_2)
 ```
@@ -242,7 +256,9 @@ anova(model_2)
 ```{r}
 VIF(model_2)
 ```
+
 The idea of fitting a random forest model is that you take bootstrap samples, and fit a tree to each of those using a random subset of the predictors. Finally, you average the results. I used the 'rf' method, the training data set, and repeated cross validation to fit the model, I then test it on the test data. 
+
 ```{r}
 trctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 10)
 #create random forest model
@@ -252,7 +268,7 @@ raFore <- train(cnt ~ temp+atemp+hum+windspeed+weathersit,
                 data = daydataTrain2,
                 preProcess = c("center", "scale"))
 #predict for our cnt variable and compare to test data
-raFore_pred <- predict(faFore, newdata = daydataTest2)
+raFore_pred <- predict(raFore, newdata = daydataTest2)
 
 raFore_pred2 <- table(raFore_pred, daydataTest2$cnt)
 misclass2 <- 1 - (sum(diag(raFore_pred2))/sum(raFore_pred2))
@@ -280,23 +296,13 @@ misclass
 ```
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Comparison
+
+
+
+
+
+
+
+
+
