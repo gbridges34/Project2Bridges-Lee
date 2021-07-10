@@ -451,20 +451,23 @@ misclass
 ## Comparison
 
 I will now compare our four models directly in order to declare a
-“winner,” that is the model that has the (insert metric here).
+“winner,” that is the model that has the lowest RMSE.
 
 ``` r
 prediction1 <- predict(model_1, newdata = daydataTest)
 prediction2 <- predict(model_2, newdata = daydataTest2)
-postResample(prediction1, obs = daydataTest$cnt)
+prediction3 <- predict(raFore, newdata = daydataTest2)
+prediction4 <- predict(boostree, newdata = daydataTest)
+rmse1 <- postResample(prediction1, obs = daydataTest$cnt)
+rmse2 <- postResample(prediction2, obs = daydataTest2$cnt)
+rmse3 <- postResample(prediction3, obs = daydataTest2$cnt)
+rmse4 <- postResample(prediction4, obs = daydataTest$cnt)
+#table(rmse1[1], rmse2[1], rmse3[1], rmse4[1])
+data.frame(rmse1[1], rmse2[1], rmse3[1], rmse4[1])
 ```
 
-    ##         RMSE     Rsquared          MAE 
-    ## 1144.6763890    0.5099379  930.6751896
+    ##      rmse1.1. rmse2.1. rmse3.1. rmse4.1.
+    ## RMSE 1144.676 1555.272 1680.551 1342.478
 
-``` r
-postResample(prediction2, obs = daydataTest2$cnt)
-```
-
-    ##         RMSE     Rsquared          MAE 
-    ## 1555.2715819    0.4378803 1267.0126550
+According to the table, model\_1 has the lowest RMSE, and is therefore
+the winning model.
