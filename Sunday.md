@@ -462,9 +462,13 @@ rmse1 <- postResample(prediction1, obs = daydataTest$cnt)
 rmse2 <- postResample(prediction2, obs = daydataTest2$cnt)
 rmse3 <- postResample(prediction3, obs = daydataTest2$cnt)
 rmse4 <- postResample(prediction4, obs = daydataTest$cnt)
-#table(rmse1[1], rmse2[1], rmse3[1], rmse4[1])
-data.frame(rmse1[1], rmse2[1], rmse3[1], rmse4[1])
+
+kable(data.frame(rmse1[1], rmse2[1], rmse3[1], rmse4[1]))
 ```
+
+|      | rmse1.1. | rmse2.1. | rmse3.1. | rmse4.1. |
+|:-----|---------:|---------:|---------:|---------:|
+| RMSE | 1213.639 | 1372.832 | 1341.251 | 1235.109 |
 
 According to the table, model\_1 has the lowest RMSE, and is therefore
 the winning model.

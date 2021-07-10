@@ -433,8 +433,28 @@ body {
 <span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>rmse2 <span class="ot">&lt;-</span> <span class="fu">postResample</span>(prediction2, <span class="at">obs =</span> daydataTest2<span class="sc">$</span>cnt)</span>
 <span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>rmse3 <span class="ot">&lt;-</span> <span class="fu">postResample</span>(prediction3, <span class="at">obs =</span> daydataTest2<span class="sc">$</span>cnt)</span>
 <span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>rmse4 <span class="ot">&lt;-</span> <span class="fu">postResample</span>(prediction4, <span class="at">obs =</span> daydataTest<span class="sc">$</span>cnt)</span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="co">#table(rmse1[1], rmse2[1], rmse3[1], rmse4[1])</span></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(rmse1[<span class="dv">1</span>], rmse2[<span class="dv">1</span>], rmse3[<span class="dv">1</span>], rmse4[<span class="dv">1</span>])</span></code></pre></div>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(rmse1[<span class="dv">1</span>], rmse2[<span class="dv">1</span>], rmse3[<span class="dv">1</span>], rmse4[<span class="dv">1</span>]))</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">rmse1.1.</th>
+<th align="right">rmse2.1.</th>
+<th align="right">rmse3.1.</th>
+<th align="right">rmse4.1.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">RMSE</td>
+<td align="right">1212.397</td>
+<td align="right">1424.627</td>
+<td align="right">1332.236</td>
+<td align="right">1510.658</td>
+</tr>
+</tbody>
+</table>
 <p>According to the table, model_1 has the lowest RMSE, and is therefore the winning model.</p>
 
 </body>

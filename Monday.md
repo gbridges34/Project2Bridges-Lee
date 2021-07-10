@@ -222,7 +222,7 @@ variable.
 ggplot(daydataTrain, aes(group=season, temp, y="", fill=season))+geom_boxplot()+ggtitle("Boxplot of temperature based off of Season")+ylab("Seasons")+xlab("Temperature")
 ```
 
-![](Monday_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](Monday_files/figure-gfm/unnamed-chunk-43-1.png)<!-- -->
 
 ``` r
 # Scatterplot cnt vs temp based off of season
@@ -230,7 +230,7 @@ ggplot(daydataTrain, aes(group=season, temp, y="", fill=season))+geom_boxplot()+
 ggplot(daydataTrain, aes(x=cnt, y=temp, color=season))+geom_point()+labs(x="Count of total rental bikes", y="Temperature", title="Scatterplot of Temperature vs Count of total rental bikes based off of seasons")
 ```
 
-![](Monday_files/figure-gfm/unnamed-chunk-19-2.png)<!-- -->
+![](Monday_files/figure-gfm/unnamed-chunk-43-2.png)<!-- -->
 
 ``` r
 # Scatterplot of Temperature vs Windspeed
@@ -239,21 +239,21 @@ ggplot(daydataTrain, aes(x=temp,y=windspeed, color=season))+geom_point()+geom_sm
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](Monday_files/figure-gfm/unnamed-chunk-19-3.png)<!-- -->
+![](Monday_files/figure-gfm/unnamed-chunk-43-3.png)<!-- -->
 
 ``` r
 #boxplot temperature versus weather situation
 ggplot(daydataTrain2, aes(group=weathersit, temp, y="", fill=weathersit))+geom_boxplot()+ggtitle("Boxplot of temperature based off of Weather Situation") +ylab("Weather Situations")+xlab("Temperature")
 ```
 
-![](Monday_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](Monday_files/figure-gfm/unnamed-chunk-44-1.png)<!-- -->
 
 ``` r
 #scatterplot cnt vs humidity based off of weather situation
 ggplot(daydataTrain2, aes(x=cnt, y=hum, color=weathersit))+geom_point()+labs(x="Count of total rental bikes", y="Humidity", title="Scatterplot of Humidity vs Count of total rental bikes based off of weather situations")
 ```
 
-![](Monday_files/figure-gfm/unnamed-chunk-20-2.png)<!-- -->
+![](Monday_files/figure-gfm/unnamed-chunk-44-2.png)<!-- -->
 
 ``` r
 # Scatterplot of Humidity vs Windspeed
@@ -262,7 +262,7 @@ ggplot(daydataTrain2, aes(x=hum,y=windspeed, color=weathersit))+geom_point()+geo
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](Monday_files/figure-gfm/unnamed-chunk-20-3.png)<!-- -->
+![](Monday_files/figure-gfm/unnamed-chunk-44-3.png)<!-- -->
 
 Looking at the first boxplot, we can inspect whether the temperatures
 are skewed based off of season and see potential outliers. For the
@@ -462,9 +462,13 @@ rmse1 <- postResample(prediction1, obs = daydataTest$cnt)
 rmse2 <- postResample(prediction2, obs = daydataTest2$cnt)
 rmse3 <- postResample(prediction3, obs = daydataTest2$cnt)
 rmse4 <- postResample(prediction4, obs = daydataTest$cnt)
-#table(rmse1[1], rmse2[1], rmse3[1], rmse4[1])
-data.frame(rmse1[1], rmse2[1], rmse3[1], rmse4[1])
+
+kable(data.frame(rmse1[1], rmse2[1], rmse3[1], rmse4[1]))
 ```
+
+|      | rmse1.1. | rmse2.1. | rmse3.1. | rmse4.1. |
+|:-----|---------:|---------:|---------:|---------:|
+| RMSE | 1144.676 | 1555.272 | 1680.551 | 1342.478 |
 
 According to the table, model\_1 has the lowest RMSE, and is therefore
 the winning model.
