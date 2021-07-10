@@ -260,9 +260,9 @@ VIF(model_2)
 The idea of fitting a random forest model is that you take bootstrap samples, and fit a tree to each of those using a random subset of the predictors. Finally, you average the results. I used the 'rf' method, the training data set, and repeated cross validation to fit the model, I then test it on the test data. 
 
 ```{r}
-trctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 10)
+trctrl <- trainControl(method = "repeatedcv", number = 4, repeats = 3)
 #create random forest model
-raFore <- train(cnt ~ temp,
+raFore <- train(cnt ~ temp + atemp + hum + windspeed,
                 method = "rf",
                 trControl = trctrl,
                 data = daydataTrain2,
