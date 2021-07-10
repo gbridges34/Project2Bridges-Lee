@@ -470,5 +470,5 @@ kable(data.frame(rmse1[1], rmse2[1], rmse3[1], rmse4[1]))
 |:-----|---------:|---------:|---------:|---------:|
 | RMSE | 1213.639 | 1372.832 | 1341.251 | 1235.109 |
 
-According to the table, model\_1 has the lowest RMSE, and is therefore
-the winning model.
+According to the table, the one with the lowest rmse should be declared
+the winner.
